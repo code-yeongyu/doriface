@@ -82,6 +82,9 @@ export interface DesktopShellProps {
   /** False until the core has listed its terminals; the count would read 0 until then. */
   readonly loaded: boolean;
   readonly layout: Layout;
+  /** Every space in the order the sidebar lists them (`spaceKey`s), for the space keys. */
+  readonly spaceKeys: readonly string[];
+  readonly onSelectSpace: (key: string) => void;
   readonly onNew: () => void;
   /** Starts an hc template (an agent) as a new tab, from the New tab menu. */
   readonly onNewAgent: (template: string) => void;
@@ -102,6 +105,8 @@ export function DesktopShell(props: DesktopShellProps) {
     terminals,
     loaded,
     layout,
+    spaceKeys,
+    onSelectSpace,
     onNew,
     onNewAgent,
     onNewSpace,
@@ -149,6 +154,8 @@ export function DesktopShell(props: DesktopShellProps) {
   useAppActions({
     terminals,
     layout,
+    spaceKeys,
+    onSelectSpace,
     onNew,
     onSplit,
     onCloseTab,

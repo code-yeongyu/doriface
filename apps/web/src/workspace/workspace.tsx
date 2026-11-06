@@ -32,6 +32,7 @@ import { useLayoutDocs } from "./use-layout-docs.ts";
 import { GitFactsContext, useGitFacts } from "./git-facts.ts";
 import { layoutSpaces, tabTitle } from "./model.ts";
 import { SpaceSelectionContext } from "./space-selection.ts";
+import { useSpaceMove } from "./space-order.ts";
 import { useAdoptLoose } from "./use-adopt-loose.ts";
 import { useAttention } from "./use-attention.ts";
 import { orderNotSaved } from "./machine-order.ts";
@@ -297,9 +298,10 @@ export function Workspace({ connection }: WorkspaceProps) {
   // The space keys count the spaces as the sidebar lists them, so "space 2" is the second row a person sees.
   const spaceKeys = useMemo(() => spacesInOrder(entries, spaces).map((space) => space.id), [entries, spaces]);
   const selectedSpace = layout.active?.spaceKey ?? null;
+  const moveSpace = useSpaceMove(layouts, failed);
   const spaceSelection = useMemo(
-    () => ({ spaces, selected: selectedSpace, select: selectSpace }),
-    [spaces, selectedSpace, selectSpace],
+    () => ({ spaces, selected: selectedSpace, select: selectSpace, move: moveSpace }),
+    [spaces, selectedSpace, selectSpace, moveSpace],
   );
   return (
     <MachinesContext value={machines}>
